@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Event Announcement System</title>
+    <link rel="stylesheet" href="styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+</head>
+
+<body>
+    <div class="container">
+        <header>
+            <h1>Event Announcement System</h1>
+            <p class="subtitle">Stay updated with the latest events and announcements</p>
+        </header>
+
+        <main>
+
+
+            <br>
+            <br>
+            <section class="subscription-section">
+                <div class="section-header">
+                    <h2>Subscribe to Notifications</h2>
+                    <p>Get notified about upcoming events directly in your inbox</p>
+                </div>
+
+                <form class="subscription-form" id="subscriptionForm">
+                    <div class="form-group">
+                        <label for="email">Email Address</label>
+                        <input type="email" id="email" name="email" placeholder="Enter your email address" required>
+                    </div>
+
+                    <button type="submit" class="btn btn-primary">
+                        <span class="btn-text">Subscribe to Notifications</span>
+                        <svg class="btn-icon" width="16" height="16" viewBox="0 0 16 16" fill="none">
+                            <path d="M8 2L14 8L8 14M14 8H2" stroke="currentColor" stroke-width="2"
+                                stroke-linecap="round" stroke-linejoin="round" />
+                        </svg>
+                    </button>
+                </form>
+            </section>
+
+
+            <section class="event-section">
+                <div class="section-header">
+                    <h2>Send Event Notification</h2>
+                    <p>Create and send notifications to all subscribed users</p>
+                </div>
+
+                <form class="event-form" id="eventForm">
+                    <div class="form-group">
+                        <label for="eventName">Event Name</label>
+                        <input type="text" id="eventName" name="name" placeholder="Enter event name" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="eventDescription">Event Description</label>
+                        <textarea id="eventDescription" name="description" placeholder="Describe the event details..."
+                            rows="4" required></textarea>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="eventDate">Event Date</label>
+                        <input type="datetime-local" id="eventDate" name="date" required>
+                    </div>
+
+                    <button type="submit" class="btn btn-secondary">
+                        <span class="btn-text">Send Notification</span>
+                        <svg class="btn-icon" width="16" height="16" viewBox="0 0 16 16" fill="none">
+                            <path d="M8 1L15 8L8 15M15 8H1" stroke="currentColor" stroke-width="2"
+                                stroke-linecap="round" stroke-linejoin="round" />
+                        </svg>
+                    </button>
+                </form>
+            </section>
+        </main>
+
+        <footer>
+            <p>&copy; 2025 Event Announcement System. I don't like frontend so it was generated with ai.</p>
+        </footer>
+    </div>
+
+    <!-- Success/Error Messages -->
+    <div id="messageContainer" class="message-container"></div>
+</body>
+
+</html>
