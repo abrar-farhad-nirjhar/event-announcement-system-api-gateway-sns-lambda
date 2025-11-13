@@ -14,7 +14,9 @@ resource "aws_lambda_function" "subscribe" {
   filename         = data.archive_file.lambda_zip.output_path
 
   environment {
-    # SNS_TOPIC_ARN = aws_sns_topic.event_announcements.arn
+    variables = {
+      EVENT_SNS_ARN = aws_sns_topic.event_announcements.arn
+    }
   }
 }
 
@@ -28,7 +30,8 @@ resource "aws_lambda_function" "notify" {
   filename         = data.archive_file.lambda_zip.output_path
 
   environment {
-    # SNS_TOPIC_ARN = aws_sns_topic.event_announcements.arn
+    variables = {
+      EVENT_SNS_ARN = aws_sns_topic.event_announcements.arn
+    }
   }
-
 }

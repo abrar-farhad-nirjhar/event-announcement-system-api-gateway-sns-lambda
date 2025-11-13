@@ -1,5 +1,7 @@
 import json
 from typing import Any, Dict, TypedDict
+from config import config
+from sns_helper import SNSHelper
 
 
 class Response(TypedDict):
@@ -28,19 +30,20 @@ def subscription_handler(event: Dict[str, Any], _) -> Response:
     if not email:
         return Response(statusCode=400, body=json.dumps({"error": "Email is required"}))
 
-    # Subscribe the email to the SNS topic
-    # sns_client.subscribe(TopicArn=sns_topic_arn, Protocol="email", Endpoint=email)
-
+    try:
+        sns_helper = SNSHelper(topic_arn=config.SNS_ARN)
+        sns_helper.subscribe(email)
+    except Exception as e:
+        return Response(
+            statusCode=500, body=json.dumps({"error": f"Subscription failed: {str(e)}"})
+        )
     return Response(
         statusCode=200, body=json.dumps({"message": "Subscription successful"})
     )
 
 
 def notification_handler(event: Dict[str, Any], _) -> Response:
-    """Handles SNS notifications.
-
-    This lambda function is triggered by SNS when a new event announcement
-    is published. It processes the notification and performs necessary actions.
+    """Publishes messages to SNS topic.
 
     Args:
         event (dict): The event data from SNS.
@@ -49,10 +52,24 @@ def notification_handler(event: Dict[str, Any], _) -> Response:
     Returns:
         Response: A response indicating the processing status.
     """
-    # for record in event["Records"]:
-    #     sns_message = record["Sns"]["Message"]
-    #     # Process the SNS message (e.g., log it, send emails, etc.)
+    event_body = json.loads(event["body"])
+    name = event_body.get("name")
+    description = event_body.get("description")
+    date = event_body.get("date")
 
+    if not all([name, date, description]):
+        return Response(
+            statusCode=400,
+            body=json.dumps({"error": "Name, date, and description are required"}),
+        )
+    try:
+        sns_helper = SNSHelper(config.SNS_ARN)
+        message = f"Event: {name}\nDescription: {description}\nDate: {date}"
+        sns_helper.notify(message)
+    except Exception as e:
+        return Response(
+            statusCode=500, body=json.dumps({"error": f"Notification failed: {str(e)}"})
+        )
     return Response(
         statusCode=200, body=json.dumps({"message": "Notification processed"})
     )
